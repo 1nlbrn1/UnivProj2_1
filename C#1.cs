@@ -28,8 +28,9 @@ public class Logus {
 public class Implication : Logus {
     private bool result;
     private bool isresset;
-    public bool Result;
-    public bool Isresset { get; }
+    public bool Isresset { get { return isresset; } }
+    public bool Alpha { get { return alpha; } set { alpha = value; isresset = false; } }
+    public bool Beta { get { return beta; } set { beta = value; isresset = false; } }
     public Implication() : base() { isresset = false; }
     public Implication(bool alpha, bool beta) : base(alpha, beta) { isresset = false; }
     public Implication(Implication im) {
@@ -46,18 +47,17 @@ public class Implication : Logus {
     }
     public bool CalcAndGetRes() {
         isresset = true;
-        if (alpha == true && beta == false) {
-            result = false;
-            return false;
-        }
         result = true;
-        return true;
+        if ((alpha == true) && (beta == false)) {
+            result = false;
+        }
+        return result;
     }
     public string AlphaPossibilities() {
         if(Isresset == false) {
             return "Result is not set";
         }
-        if(Beta == false && result == false) {
+        if((Beta == false) && (result == false)) {
             return "Alpha = true";
         }
         if(Beta == false && result == true) {
@@ -72,13 +72,13 @@ public class Implication : Logus {
         if(Isresset == false) {
             return "Result is not set";
         }
-        if(Alpha == true && result == false) {
+        if((Alpha == true) && (result == false)) {
             return "Beta = false";
         }
         if(Alpha == true) {
-            return "Alpha = true or false";
+            return "Beta = true or false";
         }
-        return "Alpha = true";
+        return "Beta = true";
     }
 }
 public static class MainClass {
@@ -99,11 +99,11 @@ public static class MainClass {
         Console.WriteLine(l.ToString());
         Console.WriteLine("");
 
-        Console.WriteLine("Logus.Alpha:");
+        Console.WriteLine("Logus().Alpha:");
         Console.WriteLine(l.Alpha);
         Console.WriteLine("");
 
-        Console.WriteLine("Logus.Beta:");
+        Console.WriteLine("Logus().Beta:");
         Console.WriteLine(l.Beta);
         Console.WriteLine("");
 
@@ -121,9 +121,61 @@ public static class MainClass {
         Console.WriteLine("Logus().ekviv: " + l.ekviv());
         Console.WriteLine("");
 
-        Implication imp = new Implication(true, false);
-        //Console.WriteLine(im.CalcAndGetRes());
-        Console.WriteLine(imp.Result);
+        Implication imp = new Implication();
+        Console.WriteLine("Implication().ToString:");
+        Console.WriteLine(imp.ToString());
+        Console.WriteLine("");
+
+        Implication imp1 = new Implication(true, false);
+        Console.WriteLine("Implication1(true, false).ToString:");
+        Console.WriteLine(imp1.ToString());
+        Console.WriteLine("");
+
+        Implication imp2 = new Implication(imp1);
+        Console.WriteLine("Implication2(Implication1).ToString:");
+        Console.WriteLine(imp2.ToString());
+        Console.WriteLine("");
+
+        Console.WriteLine("Implication2.Isresset:");
+        Console.WriteLine(imp2.Isresset);
+        Console.WriteLine("");
+
+        Console.WriteLine("Implication2.CalcAndGetRes():");
+        Console.WriteLine(imp2.CalcAndGetRes());
+        Console.WriteLine("");
+
+        Console.WriteLine("Implication2.Isresset:");
+        Console.WriteLine(imp2.Isresset);
+        Console.WriteLine("");
+
+        Console.WriteLine("Implication2.ToString:");
+        Console.WriteLine(imp2.ToString());
+        Console.WriteLine("Implication2.AlphaPossibilities():");
+        Console.WriteLine(imp2.AlphaPossibilities());
+        Console.WriteLine("");
+
+        Console.WriteLine("Implication2.ToString:");
+        Console.WriteLine(imp2.ToString());
+        Console.WriteLine("Implication2.BetaPossibilities():");
+        Console.WriteLine(imp2.BetaPossibilities());
+        Console.WriteLine("");
+
+        Console.WriteLine("Beta set true -> Implication2().ToString:");
+        imp2.Beta = true;
+        imp2.CalcAndGetRes();
+        Console.WriteLine(imp2.ToString());
+        Console.WriteLine("Implication2.AlphaPossibilities():");
+        Console.WriteLine(imp2.AlphaPossibilities());
+        Console.WriteLine("");
+
+        Console.WriteLine("Alpha set false -> Implication2().ToString:");
+        imp2.Alpha = false;
+        imp2.CalcAndGetRes();
+        Console.WriteLine(imp2.ToString());
+        Console.WriteLine("Implication2.BetaPossibilities():");
+        Console.WriteLine(imp2.BetaPossibilities());
+        Console.WriteLine("");
+
     }
 
 }

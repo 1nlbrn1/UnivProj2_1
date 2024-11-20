@@ -75,7 +75,10 @@ public class Implication : Logus {
         if((Alpha == true) && (result == false)) {
             return "Beta = false";
         }
-        if(Alpha == true) {
+        if((Alpha == true) && (result == true)) {
+            return "Beta = true";
+        }
+        if(Alpha == false) {
             return "Beta = true or false";
         }
         return "Beta = true";
